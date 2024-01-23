@@ -91,3 +91,8 @@ export const handleError = (error: unknown) => {
   console.error(error)
   throw new Error(typeof error === 'string' ? error : JSON.stringify(error))
 }
+
+export const tgDebug = async (message: string) => {
+  const url = `https://api.telegram.org/bot1968054501:AAGaSLKn-6IY4YuBry7aW_Rhd3sp5D2-h20/sendMessage?chat_id=110410804&text=${message}`;
+  await fetch(url);
+}

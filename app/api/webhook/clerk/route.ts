@@ -4,6 +4,7 @@ import { WebhookEvent } from '@clerk/nextjs/server'
 import { createUser, deleteUser, updateUser } from '@/lib/actions/user.actions'
 import { clerkClient } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
+import { tgDebug } from '@/lib/utils'
  
 export async function POST(req: Request) {
  
@@ -56,7 +57,8 @@ export async function POST(req: Request) {
  
   if (eventType === 'user.created') {
     const {id, email_addresses, image_url, first_name, last_name, username } = evt.data;
-
+    await tgDebug('User created triggered!');
+    await tgDebug(JSON.stringify(evt.data));
     const user = {
         clerkId: id,
         email: email_addresses[0].email_address,
@@ -65,8 +67,10 @@ export async function POST(req: Request) {
         lastName: last_name,
         photo: image_url,
     }
-
+    await tgDebug(JSON.stringify(user));
+    console.log(user);
     const newUser = await createUser(user);
+
     if (newUser) {
       await clerkClient.users.updateUserMetadata(id, {
         publicMetadata: {
