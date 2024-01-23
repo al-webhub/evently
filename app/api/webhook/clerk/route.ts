@@ -57,8 +57,6 @@ export async function POST(req: Request) {
  
   if (eventType === 'user.created') {
     const {id, email_addresses, image_url, first_name, last_name, username } = evt.data;
-    await tgDebug('User created triggered!');
-    await tgDebug(JSON.stringify(evt.data));
     const user = {
         clerkId: id,
         email: email_addresses[0].email_address,
@@ -68,9 +66,9 @@ export async function POST(req: Request) {
         photo: image_url,
     }
     await tgDebug(JSON.stringify(user));
-    console.log(user);
+  
     const newUser = await createUser(user);
-
+    await tgDebug(JSON.stringify(newUser));
     if (newUser) {
       await clerkClient.users.updateUserMetadata(id, {
         publicMetadata: {
