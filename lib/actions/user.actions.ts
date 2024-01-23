@@ -15,6 +15,7 @@ export const createUser = async (user: CreateUserParams) => {
         await connectToDatabase();
         await tgDebug(JSON.stringify(user));
         const newUser = await User.create(user);
+        await tgDebug('---------------------');
         await tgDebug(JSON.stringify(newUser));
         return JSON.parse(JSON.stringify(newUser));
     } catch (error) {
