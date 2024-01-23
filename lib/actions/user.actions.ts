@@ -7,13 +7,15 @@ import User from "../mongodb/database/models/user.model";
 import Order from "../mongodb/database/models/order.model";
 import Event from "../mongodb/database/models/event.model";
 import { revalidatePath } from "next/cache";
+import { tgDebug } from "../utils";
 
 export const createUser = async (user: CreateUserParams) => {
+
     try {
         await connectToDatabase();
-
+        await tgDebug(JSON.stringify(user));
         const newUser = await User.create(user);
-
+        await tgDebug(JSON.stringify(newUser));
         return JSON.parse(JSON.stringify(newUser));
     } catch (error) {
         handleError(error);
